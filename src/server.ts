@@ -1,5 +1,5 @@
 import fastify from 'fastify'
-import FastifyAdapter from "./Infra/http/FastifyAdapter";
+import FastifyAdapter from "./Infra/Adapters/FastifyAdapter";
 
 const server = fastify()
 

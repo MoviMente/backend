@@ -1,5 +1,5 @@
 import HttpServer from "./HttpServer";
-import fastify from "fastify";
+import fastify, {FastifyReply, FastifyRequest} from "fastify";
 import fastifyCors from '@fastify/cors';
 import fastifyFormbody from '@fastify/formbody';
 export default class FastifyAdapter implements HttpServer {
@@ -13,31 +13,21 @@ export default class FastifyAdapter implements HttpServer {
 
     on(method: string, url: string, callback: Function): void {
         this.app.route({
-            method,
-            url: '/',
-            schema: {
-                querystring: {
-                    name: { type: 'string' },
-                    excitement: { type: 'integer' }
-                },
-                response: {
-                    200: {
-                        type: 'object',
-                        properties: {
-                            hello: { type: 'string' }
-                        }
-                    }
+            method: method.toUpperCase(),
+            url: url.replace(/\{|\}/g, ""),
+            handler: async (request: FastifyRequest, reply: FastifyReply ) => {
+                try {
+                    const output = await callback(request.params, request.body);
+                    reply.send(output);
+                } catch (error: any) {
+                    reply.status(422).send(error.message);
                 }
-            },
-            handler: function (request, reply) {
-                reply.send({ hello: 'world' })
             }
         });
     }
 
     listen(port: number): void {
-        // @ts-ignore
-        this.app.listen({port}, (err) => {
+        this.app.listen({port}, (err: any) => {
             if (err) {
                 console.error(err.message())
                 process.exit(1)
