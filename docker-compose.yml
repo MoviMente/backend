@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+
+  database:
+    image: postgres
+    container_name: db_movimente
+    restart: always
+    ports:
+      - '5439:5432'
+    environment:
+      - POSTGRES_USER=movimente
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db_movimente
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - '8080:80'
+    environment:
+      - PGADMIN_DEFAULT_PASSWORD=
+      - PGADMIN_DEFAULT_EMAIL=root@minhacena.com
+    depends_on:
+      - database
+
+volumes:
+  pgdata:

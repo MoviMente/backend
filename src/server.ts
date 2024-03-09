@@ -1,11 +1,13 @@
 import fastify from 'fastify'
 import FastifyAdapter from "./Infra/Adapters/FastifyAdapter";
-
-const server = fastify()
-
-server.get('/', async (request, reply) => {
-    return 'Hello there! 👋'
-})
+import Registry from "./Infra/di/Registry";
+import CreateUser from "./Application/UseCases/CreateUser";
+import UserController from "./Application/Controllers/UserController";
 
 const httpServer = new FastifyAdapter();
+
+const registry = Registry.getInstance();
+registry.provide("CreateUser", CreateUser);
+new UserController(httpServer);
+
 httpServer.listen(3000);
