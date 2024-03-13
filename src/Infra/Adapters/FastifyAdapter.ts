@@ -6,7 +6,7 @@ export default class FastifyAdapter implements HttpServer {
     app: any;
 
     constructor () {
-        this.app = fastify();
+        this.app = fastify({ logger: true });
         this.app.register(fastifyCors);
         this.app.register(fastifyFormbody);
     }

@@ -1,5 +1,5 @@
 export default class User {
-    private _id: number;
+    private _id?: number;
     private _email: string;
     private _password: string;
     private _role: number;
@@ -8,13 +8,13 @@ export default class User {
     private _updatedAt: Date;
 
     constructor(
-        id: number,
         email: string,
         password: string,
         role: number,
         unlocked?: Date,
         createdAt?: Date,
-        updatedAt?: Date
+        updatedAt?: Date,
+        id?: number,
     ) {
         this._id = id;
         this._email = email;
@@ -25,7 +25,7 @@ export default class User {
         this._updatedAt = updatedAt || new Date();
     }
 
-    get id(): number {
+    get id(): number | undefined {
         return this._id;
     }
 
