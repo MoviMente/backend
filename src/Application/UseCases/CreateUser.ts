@@ -1,5 +1,6 @@
 import {UserRepositoryInterface} from "../RepositoryInterface/UserRepositoryInterface";
 import inject from "../../Infra/di/Inject";
+import {UserInput} from "../../Domain/User/UserType";
 
 export default class CreateUser {
     @inject("UserRepositoryInterface")
@@ -10,10 +11,8 @@ export default class CreateUser {
         this.userRepository = userRepository;
     }
 
-    async execute (input: any): Promise<any> {
-        const transaction = await this.userRepository?.createUser(input)
-        return {
-            transaction
-        }
+    async execute (input: UserInput): Promise<any> {
+        const user = await this.userRepository?.createUser(input)
+        return user
     }
 }

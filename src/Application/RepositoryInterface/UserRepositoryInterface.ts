@@ -1,7 +1,7 @@
-import User from "../../Domain/User/User";
+import {UserInput} from "../../Domain/User/UserType";
 
 
 export interface UserRepositoryInterface {
-    createUser(userData: User): Promise<User>;
-    getUsers(): Promise<User[]>
+    createUser(userData: UserInput): Promise<any>;
+    getUsers(): Promise<any[]>
 }
